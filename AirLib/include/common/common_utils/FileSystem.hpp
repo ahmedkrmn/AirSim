@@ -111,10 +111,12 @@ public:
     static std::string getLogFolderPath(bool folder_timestamp)
     {
         std::string logfolder = folder_timestamp ? Utils::to_string(Utils::now()) : "";
-        std::string fullPath = combine(getAppDataFolder(), logfolder);
+        // std::string fullPath = combine(getAppDataFolder(), logfolder);
+        // Set log output to root of %userprofile%\documents\AirSim instead of creating a timestamp folder
+        std::string fullPath = getAppDataFolder();
         ensureFolder(fullPath);
 
-        return fullPath;
+        return fullPath;    
     }
 
     static std::string getLogFileNamePath(const std::string& fullPath, const std::string& prefix, const std::string& suffix, const std::string& extension, 
