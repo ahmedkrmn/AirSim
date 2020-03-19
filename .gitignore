@@ -370,3 +370,6 @@ ros/devel/
 ros/logs/
 ros/.catkin_workspace
 ros/src/CMakeLists.txt
+
+# Gif settings
+/DrivingTracks/screentogifsettings.txt
