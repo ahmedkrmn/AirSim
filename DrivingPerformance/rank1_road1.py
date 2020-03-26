@@ -1,5 +1,3 @@
-# To Be implemented - refere to ../DrivingTracks
-
 import os.path as path
 import time
 import math
@@ -49,6 +47,7 @@ crossed_1 = False
 #log_path = path.expanduser('~\\Documents\\AirSim\\airsim_rec.txt')
 log_path = path.expanduser('rank1_road1_unfocused.txt')
 
+
 def analyse():
     CrossedSpeedSign = False
     CrossedStopSign = False
@@ -58,7 +57,7 @@ def analyse():
         time.sleep(1)
     perf_turn = 5
     perf_speed = 1
-    perf_stop =  1
+    perf_stop = 1
     print("RECORDING STARTED!")
     with open(log_path, 'r') as f:
         # loop on the recorded file line by line and split the line.
@@ -79,7 +78,7 @@ def analyse():
 			# Check whether we crossed the first line then we trigger the flag to track his turning performance.	            
             if(strip_1[0][0] <= x <= strip_1[0][1] and strip_1[1][0] <= y <= strip_1[1][1]):
                 crossed_1 = True
-			# Check whether we crossed the second line then we reset the flag and measure his performance of turning.
+                # Check whether we crossed the second line then we reset the flag and measure his performance of turning.
             if(strip_2[0][0] <= x <= strip_2[0][1] and strip_2[1][0] <= y <= strip_2[1][1]):
                 if(crossed_1):
                     if(Rang1_1[0][0] <= x <= Rang1_1[0][1] and Rang1_1[1][0] <= y <= Rang1_1[1][1]):
@@ -92,34 +91,34 @@ def analyse():
                         perf_turn = 2
                         crossed_1 = False
                     elif(Rang2_2[0][0] <= x <= Rang2_2[0][1] and Rang2_2[1][0] <= y <= Rang2_2[1][1]):
-                    	perf_turn = 2
-                    	crossed_1 = False
+                        perf_turn = 2
+                        crossed_1 = False
                     elif(Rang3_1[0][0] <= x <= Rang3_1[0][1] and Rang3_1[1][0] <= y <= Rang3_1[1][1]):
-                    	perf_turn = 3
-                    	crossed_1 = False
+                        perf_turn = 3
+                        crossed_1 = False
                     elif(Rang3_2[0][0] <= x <= Rang3_2[0][1] and Rang3_2[1][0] <= y <= Rang3_2[1][1]):
-                    	perf_turn = 3
-                    	crossed_1 = False
+                        perf_turn = 3
+                        crossed_1 = False
                     elif(Rang4_1[0][0] <= x <= Rang4_1[0][1] and Rang4_1[1][0] <= y <= Rang4_1[1][1]):
-                    	perf_turn = 4
-                    	crossed_1 = False
+                        perf_turn = 4
+                        crossed_1 = False
                     elif(Rang4_2[0][0] <= x <= Rang4_2[0][1] and Rang4_2[1][0] <= y <= Rang4_2[1][1]):
-                    	perf_turn = 4
-                    	crossed_1 = False
-                    elif(Rang5_1[0][0] <= x <= Rang5_1[0][1] and Rang5_1[1][0] <= y <= Rang5_1[1][1]):	
+                        perf_turn = 4
+                        crossed_1 = False
+                    elif(Rang5_1[0][0] <= x <= Rang5_1[0][1] and Rang5_1[1][0] <= y <= Rang5_1[1][1]):
                         perf_turn = 5
                         crossed_1 = False
-                    elif(Rang5_2[0][0] <= x <= Rang5_2[0][1] and Rang5_2[1][0] <= y <= Rang5_2[1][1]):	
-                       	perf_turn = 5
-                       	crossed_1 = False
-                    #print(str(x) + " " +  str(y))        
-					# Check whether the subject collided or stopped in the middle of turning. 
-                    if(Speed<=3):
-                        perf_turn = 5               
+                    elif(Rang5_2[0][0] <= x <= Rang5_2[0][1] and Rang5_2[1][0] <= y <= Rang5_2[1][1]):
+                        perf_turn = 5
+                        crossed_1 = False
+                    #print(str(x) + " " +  str(y))
+                        # Check whether the subject collided or stopped in the middle of turning.
+                    if(Speed <= 3):
+                        perf_turn = 5
 
-			#------------------------------- Speed limit performance part-------------------------------------
-			
-			#Check the speed limit performance
+                        # ------------------------------- Speed limit performance part-------------------------------------
+
+                        # Check the speed limit performance
             if(Speed_sign[0][0] <= x <= Speed_sign[0][1] and Speed_sign[1][0] <= y <= Speed_sign[1][1]):
                 CrossedSpeedSign = True
             if(CrossedSpeedSign and Speed>20 and Speed<=23 and perf_speed<2):
@@ -131,19 +130,18 @@ def analyse():
                 perf_speed = 4
             if(CrossedSpeedSign and Speed>30 and perf_speed<5):
                 perf_speed = 5
-            
 
 			#------------------------------- stop sign performance part-------------------------------------
 			
 			# Check the speed limit performance
             if(CrossedStopSign and Boundary1[0][0] <= x <= Boundary1[0][1] and Boundary1[1][0] <= y <= Boundary1[1][1] and Speed>5 and perf_stop<2):
                 perf_stop = 2
-                #print(Speed)
-            if(CrossedStopSign and Boundary2[0][0] <= x <= Boundary2[0][1] and Boundary2[1][0] <= y <= Boundary2[1][1] and Speed>5 and perf_stop<3):
+                # print(Speed)
+            if(CrossedStopSign and Boundary2[0][0] <= x <= Boundary2[0][1] and Boundary2[1][0] <= y <= Boundary2[1][1] and Speed > 5 and perf_stop < 3):
                 perf_stop = 3
-            if(CrossedStopSign and Boundary3[0][0] <= x <= Boundary3[0][1] and Boundary3[1][0] <= y <= Boundary3[1][1] and Speed>5 and perf_stop<4):
+            if(CrossedStopSign and Boundary3[0][0] <= x <= Boundary3[0][1] and Boundary3[1][0] <= y <= Boundary3[1][1] and Speed > 5 and perf_stop < 4):
                 perf_stop = 4
-            if(CrossedStopSign and Boundary4[0][0] <= x <= Boundary4[0][1] and Boundary4[1][0] <= y <= Boundary4[1][1] and Speed>5 and perf_stop<5):
+            if(CrossedStopSign and Boundary4[0][0] <= x <= Boundary4[0][1] and Boundary4[1][0] <= y <= Boundary4[1][1] and Speed > 5 and perf_stop < 5):
                 perf_stop = 5
             if(Stop_sign[0][0] <= x <= Stop_sign[0][1] and Stop_sign[1][0] <= y <= Stop_sign[1][1]):
                 CrossedStopSign = True
@@ -193,6 +191,7 @@ def analyse():
         print("performance stop: " + str(perf_stop)) 
         print("performance deviation: " + str(perf_dev))
         return (perf_turn+perf_speed+perf_stop+perf_dev)/4
+
 
 p = analyse()
 print("final: " + str(p))
