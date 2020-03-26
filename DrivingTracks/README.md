@@ -32,4 +32,16 @@
 
 - Recorded log: `rank1_road2_unfocused.txt`
 
-S
+### Rank 1 - Road 3
+
+#### Road Map & Points
+
+![Rank 1 - Road 3 - Map](./rank1_road3.png)
+
+#### Focused Driving Demo
+
+- Recorded log: `rank1_road3_focused.txt`
+
+#### Unfocused Driving Demo
+
+- Recorded log: `rank1_road3_unfocused.txt`
