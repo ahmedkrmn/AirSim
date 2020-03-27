@@ -32,11 +32,22 @@ Boundary2 = [[165, 173.5], [-470, -467]]
 Boundary3 = [[165, 173.5], [-485, -482]]
 Boundary4 = [[165, 173.5], [-500, -497]]
 
+# Define road lane boundaries to compute deviation from the road.
+Deviation1_1 = [[0, 165], [-2, 4]]
+Deviation1_2 = [[0, 165], [-2.5, -2.1]]
+Deviation1_3 = [[0, 165], [-3, -2.6]]
+Deviation1_4 = [[0, 165], [-3.5, -3.1]]
+Deviation1_5 = [[0, 165], [-6, -3.6]]
+Deviation2_1 = [[169, 173], [-600, -9]]
+Deviation2_2 = [[168.5, 169], [-600, -9]]
+Deviation2_3 = [[168, 168.5], [-600, -9]]
+Deviation2_4 = [[167.5, 168], [-600, -9]]
+Deviation2_5 = [[164, 167.5], [-600, -9]]
 # Define a flag to indicate the subject reached the turn.
 crossed_1 = False
 
 #log_path = path.expanduser('~\\Documents\\AirSim\\airsim_rec.txt')
-log_path = path.expanduser('rank1_road1_focused.txt')
+log_path = path.expanduser('rank1_road1_unfocused.txt')
 
 def analyse():
     CrossedSpeedSign = False
@@ -51,16 +62,18 @@ def analyse():
     print("RECORDING STARTED!")
     with open(log_path, 'r') as f:
         # loop on the recorded file line by line and split the line.
-        cnt = 1;
+        cnt = 0
+        TotalDeviationPerf = 0
         for l in f.readlines():
             line = l.split()
 			# Check whether the line is empty.
-            if(len(line) == 0 or cnt):
-                cnt = 0
+            if(len(line) == 0 or cnt==0):
+                cnt+=1
                 continue
 			# Data extraction.
             time, x, y, z, Q_W,	Q_X, Q_Y, Q_Z, Throttle, Steering, Brake, Gear, Handbrake, RPM, Speed  = line[0], float(line[1]), float(line[2]),float(line[3]),float(line[4]),float(line[5]),float(line[6]),float(line[7]),float(line[8]),float(line[9]),float(line[10]),float(line[11]),float(line[12]),float(line[13]),float(line[14])
-
+            
+            cnt+=1
 			#------------------------------- turning performance part-------------------------------------
 			
 			# Check whether we crossed the first line then we trigger the flag to track his turning performance.	            
@@ -109,20 +122,20 @@ def analyse():
 			#Check the speed limit performance
             if(Speed_sign[0][0] <= x <= Speed_sign[0][1] and Speed_sign[1][0] <= y <= Speed_sign[1][1]):
                 CrossedSpeedSign = True
-            if(CrossedSpeedSign and Speed>20 and Speed<=23):
+            if(CrossedSpeedSign and Speed>20 and Speed<=23 and perf_speed<2):
                 perf_speed = 2
                 #print(Speed)
-            if(CrossedSpeedSign and Speed>23 and Speed<=25):
+            if(CrossedSpeedSign and Speed>23 and Speed<25 and perf_speed<3):
                 perf_speed = 3
-            if(CrossedSpeedSign and Speed>25 and Speed<=30):
+            if(CrossedSpeedSign and Speed>=25 and Speed<=30 and perf_speed<4):
                 perf_speed = 4
-            if(CrossedSpeedSign and Speed>30):
+            if(CrossedSpeedSign and Speed>30 and perf_speed<5):
                 perf_speed = 5
             
 
 			#------------------------------- stop sign performance part-------------------------------------
 			
-			#Check the speed limit performance
+			# Check the speed limit performance
             if(CrossedStopSign and Boundary1[0][0] <= x <= Boundary1[0][1] and Boundary1[1][0] <= y <= Boundary1[1][1] and Speed>5 and perf_stop<2):
                 perf_stop = 2
                 #print(Speed)
@@ -134,13 +147,52 @@ def analyse():
                 perf_stop = 5
             if(Stop_sign[0][0] <= x <= Stop_sign[0][1] and Stop_sign[1][0] <= y <= Stop_sign[1][1]):
                 CrossedStopSign = True
-                print(Speed)
+                
             #print(str(x) + " " +  str(y))
-            #print(Speed)	
-        print((perf_turn))
-        print((perf_speed))
-        print((perf_stop)) 
-        return (perf_turn+perf_speed+perf_stop)/3
+            #print(Speed)
+
+
+			#------------------------------- continous deviation performance part-------------------------------------
+            
+			#------------------------------- road 1 ---------------------------------------------
+            if(Deviation1_1[0][0] <= x <= Deviation1_1[0][1] and Deviation1_1[1][0] <= y <= Deviation1_1[1][1]):			
+                print(1)
+                TotalDeviationPerf+=1
+            if(Deviation1_2[0][0] <= x <= Deviation1_2[0][1] and Deviation1_2[1][0] <= y <= Deviation1_2[1][1]):			
+                print(2)
+                TotalDeviationPerf+=2			  				
+            if(Deviation1_3[0][0] <= x <= Deviation1_3[0][1] and Deviation1_3[1][0] <= y <= Deviation1_3[1][1]):			
+                print(3)
+                TotalDeviationPerf+=3
+            if(Deviation1_4[0][0] <= x <= Deviation1_4[0][1] and Deviation1_4[1][0] <= y <= Deviation1_4[1][1]):			
+                print(4)
+                TotalDeviationPerf+=4
+            if(Deviation1_5[0][0] <= x <= Deviation1_5[0][1] and Deviation1_5[1][0] <= y <= Deviation1_5[1][1]):			
+                print(5)
+                TotalDeviationPerf+=5
+			#-------------------------------- road 2 --------------------------------------------------
+            if(Deviation2_1[0][0] <= x <= Deviation2_1[0][1] and Deviation2_1[1][0] <= y <= Deviation2_1[1][1]):			
+                print(1)
+                TotalDeviationPerf+=1
+            if(Deviation2_2[0][0] <= x <= Deviation2_2[0][1] and Deviation2_2[1][0] <= y <= Deviation2_2[1][1]):			
+                print(2)
+                TotalDeviationPerf+=2				  				
+            if(Deviation2_3[0][0] <= x <= Deviation2_3[0][1] and Deviation2_3[1][0] <= y <= Deviation2_3[1][1]):			
+                print(3)
+                TotalDeviationPerf+=3
+            if(Deviation2_4[0][0] <= x <= Deviation2_4[0][1] and Deviation2_4[1][0] <= y <= Deviation2_4[1][1]):			
+                print(4)
+                TotalDeviationPerf+=4
+            if(Deviation2_5[0][0] <= x <= Deviation2_5[0][1] and Deviation2_5[1][0] <= y <= Deviation2_5[1][1]):			
+                print(5)
+                TotalDeviationPerf+=5
+#=============================================result================================================
+        perf_dev = math.ceil(TotalDeviationPerf/(cnt-1))
+        print("performance turn: " + str(perf_turn))
+        print("performance speed: " + str(perf_speed))
+        print("performance stop: " + str(perf_stop)) 
+        print("performance deviation: " + str(perf_dev))
+        return (perf_turn+perf_speed+perf_stop+perf_dev)/4
 
 p = analyse()
-print((p))
+print("final: " + str(p))
