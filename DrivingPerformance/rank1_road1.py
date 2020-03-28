@@ -71,7 +71,7 @@ def analyse():
                 continue
 			# Data extraction.
             time, x, y, z, Q_W,	Q_X, Q_Y, Q_Z, Throttle, Steering, Brake, Gear, Handbrake, RPM, Speed  = line[0], float(line[1]), float(line[2]),float(line[3]),float(line[4]),float(line[5]),float(line[6]),float(line[7]),float(line[8]),float(line[9]),float(line[10]),float(line[11]),float(line[12]),float(line[13]),float(line[14])
-            
+
             cnt+=1
 			#------------------------------- turning performance part-------------------------------------
 			
