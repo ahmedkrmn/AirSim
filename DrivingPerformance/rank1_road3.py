@@ -4,48 +4,48 @@ import math
 
 # Define road stripes for first square.
 strip_1 = [[159, 161], [-6, 4]]
-strip_2 = [[165, 173], [-11.5, -9.5]]
+strip_2 = [[163, 173], [8, 9.5]]
 
 # Define the ranges for turning performance
-Rang1_1 = [[169, 171], [-11.5, -9.5]]
-Rang1_2 = [[171, 171.5], [-11.5, -9.5]]
-Rang2_1 = [[168, 169], [-11.5, -9.5]]
-Rang2_2 = [[171.5, 172.5], [-11.5, -9.5]]
-Rang3_1 = [[167, 168], [-11.5, -9.5]]
-Rang3_2 = [[172.5, 173], [-11.5, -9.5]]
-Rang4_1 = [[166, 167], [-11.5, -9.5]]
-Rang4_2 = [[173, 174], [-11.5, -9.5]]
-Rang5_1 = [[164, 166], [-11.5, -9.5]]
-Rang5_2 = [[174, 300], [-11.5, -9.5]]
+Rang1_1 = [[164.5, 165], [8, 9.5]]
+Rang1_2 = [[165, 167], [8, 9.5]]
+Rang2_1 = [[163.5, 164.5], [8, 9.5]]
+Rang2_2 = [[167, 168], [8, 9.5]]
+Rang3_1 = [[163, 163.5], [8, 9.5]]
+Rang3_2 = [[168, 169], [8, 9.5]]
+Rang4_1 = [[162, 163], [8, 9.5]]
+Rang4_2 = [[169, 170], [8, 9.5]]
+Rang5_1 = [[160, 162], [8, 9.5]]
+Rang5_2 = [[170, 173], [8, 9.5]]
 
 # Define the speed sign place
-Speed_sign = [[165, 173.5], [-116, -114]]
+Speed_sign = [[163, 173], [136, 138]]
 CrossedSpeedSign = False
 
 # Define the stop sign place and the boundary flags for performance testing.
-Stop_sign = [[165, 173.5], [-441, -439]]
+Stop_sign = [[163, 173], [411, 413]]
 CrossedStopSign = False
-Boundary1 = [[165, 173.5], [-446, -444]]
-Boundary2 = [[165, 173.5], [-470, -467]]
-Boundary3 = [[165, 173.5], [-485, -482]]
-Boundary4 = [[165, 173.5], [-500, -497]]
+Boundary1 = [[163, 173], [416, 418]]
+Boundary2 = [[163, 173], [419, 422]]
+Boundary3 = [[163, 173], [434, 437]]
+Boundary4 = [[163, 173], [449, 452]]
 
 # Define road lane boundaries to compute deviation from the road.
-Deviation1_1 = [[0, 165], [-2, 4]]
-Deviation1_2 = [[0, 165], [-2.5, -2.1]]
-Deviation1_3 = [[0, 165], [-3, -2.6]]
-Deviation1_4 = [[0, 165], [-3.5, -3.1]]
-Deviation1_5 = [[0, 165], [-6, -3.6]]
-Deviation2_1 = [[169, 173], [-600, -9]]
-Deviation2_2 = [[168.5, 169], [-600, -9]]
-Deviation2_3 = [[168, 168.5], [-600, -9]]
-Deviation2_4 = [[167.5, 168], [-600, -9]]
-Deviation2_5 = [[164, 167.5], [-600, -9]]
+Deviation1_1 = [[0, 160], [-2, 4]]
+Deviation1_2 = [[0, 160], [-2.5, -2.1]]
+Deviation1_3 = [[0, 160], [-3, -2.6]]
+Deviation1_4 = [[0, 160], [-3.5, -3.1]]
+Deviation1_5 = [[0, 160], [-6, -3.6]]
+Deviation2_1 = [[163, 167], [0, 550]]
+Deviation2_2 = [[167, 167.5], [0, 550]]
+Deviation2_3 = [[167.5, 168], [0, 550]]
+Deviation2_4 = [[168, 168.5], [0, 550]]
+Deviation2_5 = [[168.5, 173], [0, 550]]
 # Define a flag to indicate the subject reached the turn.
 crossed_1 = False
 
 #log_path = path.expanduser('~\\Documents\\AirSim\\airsim_rec.txt')
-log_path = path.expanduser('rank1_road1_unfocused.txt')
+log_path = path.expanduser('rank1_road3_unfocused.txt')
 
 
 def analyse():
@@ -61,7 +61,6 @@ def analyse():
     print("RECORDING STARTED!")
     with open(log_path, 'r') as f:
         # loop on the recorded file line by line and split the line.
-<<<<<<< HEAD
         cnt = 0
         TotalDeviationPerf = 0
         for l in f.readlines():
@@ -122,7 +121,6 @@ def analyse():
                         # Check the speed limit performance
             if(Speed_sign[0][0] <= x <= Speed_sign[0][1] and Speed_sign[1][0] <= y <= Speed_sign[1][1]):
                 CrossedSpeedSign = True
-<<<<<<< HEAD
             if(CrossedSpeedSign and Speed>20 and Speed<=23 and perf_speed<2):
                 perf_speed = 2
                 #print(Speed)
@@ -131,29 +129,12 @@ def analyse():
             if(CrossedSpeedSign and Speed>=25 and Speed<=30 and perf_speed<4):
                 perf_speed = 4
             if(CrossedSpeedSign and Speed>30 and perf_speed<5):
-=======
-            if(CrossedSpeedSign and Speed > 20 and Speed <= 23):
-                perf_speed = 2
-                # print(Speed)
-            if(CrossedSpeedSign and Speed > 23 and Speed <= 25):
-                perf_speed = 3
-            if(CrossedSpeedSign and Speed > 25 and Speed <= 30):
-                perf_speed = 4
-            if(CrossedSpeedSign and Speed > 30):
->>>>>>> 2b8a5a95e3f4deb27a1d21ec89eaf20b808eba17
                 perf_speed = 5
 
-<<<<<<< HEAD
-			#------------------------------- stop sign performance part-------------------------------------
-			
-			# Check the speed limit performance
-            if(CrossedStopSign and Boundary1[0][0] <= x <= Boundary1[0][1] and Boundary1[1][0] <= y <= Boundary1[1][1] and Speed>5 and perf_stop<2):
-=======
                 # ------------------------------- stop sign performance part-------------------------------------
 
                 # Check the speed limit performance
             if(CrossedStopSign and Boundary1[0][0] <= x <= Boundary1[0][1] and Boundary1[1][0] <= y <= Boundary1[1][1] and Speed > 5 and perf_stop < 2):
->>>>>>> 2b8a5a95e3f4deb27a1d21ec89eaf20b808eba17
                 perf_stop = 2
                 # print(Speed)
             if(CrossedStopSign and Boundary2[0][0] <= x <= Boundary2[0][1] and Boundary2[1][0] <= y <= Boundary2[1][1] and Speed > 5 and perf_stop < 3):
