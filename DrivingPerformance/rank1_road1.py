@@ -61,7 +61,6 @@ def analyse():
     print("RECORDING STARTED!")
     with open(log_path, 'r') as f:
         # loop on the recorded file line by line and split the line.
-<<<<<<< HEAD
         cnt = 0
         TotalDeviationPerf = 0
         for l in f.readlines():
@@ -72,7 +71,7 @@ def analyse():
                 continue
 			# Data extraction.
             time, x, y, z, Q_W,	Q_X, Q_Y, Q_Z, Throttle, Steering, Brake, Gear, Handbrake, RPM, Speed  = line[0], float(line[1]), float(line[2]),float(line[3]),float(line[4]),float(line[5]),float(line[6]),float(line[7]),float(line[8]),float(line[9]),float(line[10]),float(line[11]),float(line[12]),float(line[13]),float(line[14])
-            
+
             cnt+=1
 			#------------------------------- turning performance part-------------------------------------
 			
@@ -122,7 +121,6 @@ def analyse():
                         # Check the speed limit performance
             if(Speed_sign[0][0] <= x <= Speed_sign[0][1] and Speed_sign[1][0] <= y <= Speed_sign[1][1]):
                 CrossedSpeedSign = True
-<<<<<<< HEAD
             if(CrossedSpeedSign and Speed>20 and Speed<=23 and perf_speed<2):
                 perf_speed = 2
                 #print(Speed)
@@ -131,29 +129,12 @@ def analyse():
             if(CrossedSpeedSign and Speed>=25 and Speed<=30 and perf_speed<4):
                 perf_speed = 4
             if(CrossedSpeedSign and Speed>30 and perf_speed<5):
-=======
-            if(CrossedSpeedSign and Speed > 20 and Speed <= 23):
-                perf_speed = 2
-                # print(Speed)
-            if(CrossedSpeedSign and Speed > 23 and Speed <= 25):
-                perf_speed = 3
-            if(CrossedSpeedSign and Speed > 25 and Speed <= 30):
-                perf_speed = 4
-            if(CrossedSpeedSign and Speed > 30):
->>>>>>> 2b8a5a95e3f4deb27a1d21ec89eaf20b808eba17
                 perf_speed = 5
 
-<<<<<<< HEAD
 			#------------------------------- stop sign performance part-------------------------------------
 			
 			# Check the speed limit performance
             if(CrossedStopSign and Boundary1[0][0] <= x <= Boundary1[0][1] and Boundary1[1][0] <= y <= Boundary1[1][1] and Speed>5 and perf_stop<2):
-=======
-                # ------------------------------- stop sign performance part-------------------------------------
-
-                # Check the speed limit performance
-            if(CrossedStopSign and Boundary1[0][0] <= x <= Boundary1[0][1] and Boundary1[1][0] <= y <= Boundary1[1][1] and Speed > 5 and perf_stop < 2):
->>>>>>> 2b8a5a95e3f4deb27a1d21ec89eaf20b808eba17
                 perf_stop = 2
                 # print(Speed)
             if(CrossedStopSign and Boundary2[0][0] <= x <= Boundary2[0][1] and Boundary2[1][0] <= y <= Boundary2[1][1] and Speed > 5 and perf_stop < 3):
