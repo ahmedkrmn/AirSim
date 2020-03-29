@@ -49,6 +49,8 @@ log_path = path.expanduser('rank1_road1_unfocused.txt')
 
 
 def analyse():
+    ContinousPerf = []
+    lastPerf = 1
     CrossedSpeedSign = False
     CrossedStopSign = False
     crossed_1 = False
@@ -70,7 +72,7 @@ def analyse():
                 cnt+=1
                 continue
 			# Data extraction.
-            time, x, y, z, Q_W,	Q_X, Q_Y, Q_Z, Throttle, Steering, Brake, Gear, Handbrake, RPM, Speed  = line[0], float(line[1]), float(line[2]),float(line[3]),float(line[4]),float(line[5]),float(line[6]),float(line[7]),float(line[8]),float(line[9]),float(line[10]),float(line[11]),float(line[12]),float(line[13]),float(line[14])
+            time, x, y, z, Q_W,	Q_X, Q_Y, Q_Z, Throttle, Steering, Brake, Gear, Handbrake, RPM, Speed  = float(line[0]), float(line[1]), float(line[2]),float(line[3]),float(line[4]),float(line[5]),float(line[6]),float(line[7]),float(line[8]),float(line[9]),float(line[10]),float(line[11]),float(line[12]),float(line[13]),float(line[14])
 
             cnt+=1
 			#------------------------------- turning performance part-------------------------------------
@@ -153,47 +155,57 @@ def analyse():
 
 			#------------------------------- continous deviation performance part-------------------------------------
             
+            if(crossed_1):
+                ContinousPerf.append((time,lastPerf))
+                continue
 			#------------------------------- road 1 ---------------------------------------------
             if(Deviation1_1[0][0] <= x <= Deviation1_1[0][1] and Deviation1_1[1][0] <= y <= Deviation1_1[1][1]):			
-                print(1)
+                lastPerf = 1
                 TotalDeviationPerf+=1
             if(Deviation1_2[0][0] <= x <= Deviation1_2[0][1] and Deviation1_2[1][0] <= y <= Deviation1_2[1][1]):			
-                print(2)
+                lastPerf = 2
                 TotalDeviationPerf+=2			  				
             if(Deviation1_3[0][0] <= x <= Deviation1_3[0][1] and Deviation1_3[1][0] <= y <= Deviation1_3[1][1]):			
-                print(3)
+                lastPerf = 3
                 TotalDeviationPerf+=3
             if(Deviation1_4[0][0] <= x <= Deviation1_4[0][1] and Deviation1_4[1][0] <= y <= Deviation1_4[1][1]):			
-                print(4)
+                lastPerf = 4
                 TotalDeviationPerf+=4
             if(Deviation1_5[0][0] <= x <= Deviation1_5[0][1] and Deviation1_5[1][0] <= y <= Deviation1_5[1][1]):			
-                print(5)
+                lastPerf = 5
                 TotalDeviationPerf+=5
 			#-------------------------------- road 2 --------------------------------------------------
             if(Deviation2_1[0][0] <= x <= Deviation2_1[0][1] and Deviation2_1[1][0] <= y <= Deviation2_1[1][1]):			
-                print(1)
+                lastPerf = 1
                 TotalDeviationPerf+=1
             if(Deviation2_2[0][0] <= x <= Deviation2_2[0][1] and Deviation2_2[1][0] <= y <= Deviation2_2[1][1]):			
-                print(2)
+                lastPerf = 2
                 TotalDeviationPerf+=2				  				
             if(Deviation2_3[0][0] <= x <= Deviation2_3[0][1] and Deviation2_3[1][0] <= y <= Deviation2_3[1][1]):			
-                print(3)
+                lastPerf = 3
                 TotalDeviationPerf+=3
             if(Deviation2_4[0][0] <= x <= Deviation2_4[0][1] and Deviation2_4[1][0] <= y <= Deviation2_4[1][1]):			
-                print(4)
+                lastPerf = 4
                 TotalDeviationPerf+=4
             if(Deviation2_5[0][0] <= x <= Deviation2_5[0][1] and Deviation2_5[1][0] <= y <= Deviation2_5[1][1]):			
-                print(5)
+                lastPerf = 5
                 TotalDeviationPerf+=5
+            ContinousPerf.append((time,lastPerf))
 #=============================================result================================================
         perf_dev = math.ceil(TotalDeviationPerf/(cnt-1))
         print("performance turn: " + str(perf_turn))
         print("performance speed: " + str(perf_speed))
         print("performance stop: " + str(perf_stop)) 
         print("performance deviation: " + str(perf_dev))
-        return (perf_turn+perf_speed+perf_stop+perf_dev)/4
+        return (perf_turn+perf_speed+perf_stop+perf_dev)/4,ContinousPerf
 
 
 
-p = analyse()
-print("final: " + str(p))
+p,CP = analyse()
+#print(CP)
+outfile = open("rank1Road1Test2.txt","w+")
+outfile.write("RANK: 1\n")
+outfile.write("OVERALL PERFORMANCE: " + str(100-(p/5)*100) + "%\n")
+outfile.write("EPOCH TIMESTAMP(Every ~1000 ms)      Performance( Scale: 1-5)\n")
+for i in CP:
+    outfile.write(str(i[0]) + "                        " + str(i[1]) + "\n")
