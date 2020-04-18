@@ -7,21 +7,20 @@ from stopPerf import *
 from ContinousPerf import *
 
 #log_path = path.expanduser('~\\Documents\\AirSim\\airsim_rec.txt')
-log_path = path.expanduser('rank1_road1l_focused.txt')
+log_path = path.expanduser('rank1_road2_unfocused.txt')
 
 
 def analyse():
     # Define road stripes for first square.
     line1_1 = [[159, 161], [-6, 4]]
-    line1_2 = [[165, 173], [-11.5, -9.5]]
+    line1_2 = [[163, 173], [8, 9.5]]
     # Define the speed sign place
-    Speed_sign = [[165, 173.5], [-120, -105]]
+    Speed_sign = [[163, 173], [130, 140]]
     # Define the stop sign place and the boundary flags for performance testing.
-    Stop_sign = [[165, 173.5], [-441, -439]]
+    Stop_sign = [[163, 173], [405, 415]]
     # Define road lane boundaries to compute deviation from the road.
-    Deviation1 = [[0, 165], [-6, 2]]
-    Deviation2 = [[165, 173], [-600, -9]]
-
+    Deviation1 = [[0, 160], [-6, 2]]
+    Deviation2 = [[163, 172], [0, 550]]
 
     ContinousPerf = []
     LastContPerf = 1
@@ -40,7 +39,7 @@ def analyse():
         for l in f.readlines():
             line = l.split()
 			# Check whether the line is empty.
-            if(len(line) == 0 or cnt==0):
+            if(len(line) == 0 or cnt<10):
                 cnt+=1
                 continue
 			# Data extraction.
@@ -48,7 +47,7 @@ def analyse():
 
             cnt+=1
 			#------------------------------- turning performance part-------------------------------------
-            TurnPerfTemp,crossedTurn1 = UpLeftLeftLane(line1_1, line1_2, crossedTurn1, x, y)
+            TurnPerfTemp,crossedTurn1 = UpwardLeftLane(line1_1, line1_2, crossedTurn1, x, y)
             if(TurnPerfTemp!=0):
                 TurnPerf.append(TurnPerfTemp)
             
@@ -58,7 +57,7 @@ def analyse():
            
 
 			#------------------------------- stop sign performance part-------------------------------------
-            StopPerf,CrossedStopSign = StopSignLeft(Stop_sign, CrossedStopSign, x, y, Speed, StopPerf)
+            StopPerf,CrossedStopSign = StopSignRight(Stop_sign, CrossedStopSign, x, y, Speed, StopPerf)
 			
 
 
@@ -67,7 +66,7 @@ def analyse():
                 ContinousPerf.append([time,LastContPerf])
                 TotalDevPerf+=LastContPerf
                 continue
-            LastContPerfTemp1 = upwardLeft(Deviation1,x,y)
+            LastContPerfTemp1 = upwardRight(Deviation1,x,y)
             LastContPerfTemp2 = leftwardDown(Deviation2,x,y)
             if(LastContPerfTemp1!=0):
                 LastContPerf = LastContPerfTemp1
@@ -77,18 +76,18 @@ def analyse():
                 ContinousPerf.append([time,LastContPerf])        
             TotalDevPerf+=LastContPerf
 #=============================================result================================================
-        DevPerf = math.ceil(TotalDevPerf/(cnt-1))
-        # print("performance turn: " + str(perf_turn))
-        # print("performance speed: " + str(perf_speed))
-        # print("performance stop: " + str(perf_stop)) 
-        # print("performance deviation: " + str(perf_dev))
+        DevPerf = math.ceil(TotalDevPerf/(cnt-10))
+        print("performance turn: " + str(sum(TurnPerf)))
+        print("performance speed: " + str(SpeedPerf))
+        print("performance stop: " + str(StopPerf)) 
+        print("performance deviation: " + str(DevPerf))
         return (DevPerf+SpeedPerf+StopPerf+sum(TurnPerf))/4,ContinousPerf
 
 
 
 p,CP = analyse()
 #print(CP)
-outfile = open("rank1Road1Test1.txt","w+")
+outfile = open("Rank1Road2RUnFocusedResult.txt","w+")
 outfile.write("RANK: 1\n")
 outfile.write("OVERALL PERFORMANCE: " + str(100-(p/5)*100) + "%\n")
 outfile.write("EPOCH TIMESTAMP(Every ~1000 ms)      Performance( Scale: 1-5)\n")
