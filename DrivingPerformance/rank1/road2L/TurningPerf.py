@@ -1,6 +1,6 @@
 # Helper function to get the turning performance with moving in upward right lane and 
-# turn left. 
-def UpwardLeftwardRightLane(line1, line2, flag, x, y):
+# turn left or right. 
+def UpwardRightLane(line1, line2, flag, x, y):
     laneWidth = abs(line2[0][0]-line2[0][1])
     half = line2[0][0] + laneWidth/2 + 2
     Rang1_1 = [[half-2, half],[ line2[1][0], line2[1][1] ]]
@@ -56,7 +56,7 @@ def UpwardLeftwardRightLane(line1, line2, flag, x, y):
 
 # Helper function to get the turning performance with moving in upward left lane and 
 # turn left or right. 
-def UpwardLeftwardLeftLane(line1, line2, flag, x, y):
+def UpwardLeftLane(line1, line2, flag, x, y):
     laneWidth = abs(line2[0][0]-line2[0][1])
     half = line2[0][0] + 2
     Rang1_1 = [[half-0.5, half],[ line2[1][0], line2[1][1] ]]
