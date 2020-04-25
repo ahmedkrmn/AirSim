@@ -7,20 +7,20 @@ from stopPerf import *
 from ContinousPerf import *
 
 #log_path = path.expanduser('~\\Documents\\AirSim\\airsim_rec.txt')
-log_path = path.expanduser('rank1_road2_unfocused.txt')
+log_path = path.expanduser('rank1_road4r_focused.txt')
 
 
 def analyse():
     # Define road stripes for first square.
-    line1_1 = [[-9, 4], [504, 514]]
-    line1_2 = [[-10, -15], [515, 530]]
+    line1_1 = [[-3, 7], [-505, -495]]
+    line1_2 = [[-10, -5], [-517, -507]]
     # Define the speed sign place
-    Speed_sign = [[-8, 3], [80, 90]]
+    Speed_sign = [[-3, 7], [-130, -120]]
     # Define the stop sign place and the boundary flags for performance testing.
-    Stop_sign = [[-100, -90], [515, 530]]
+    Stop_sign = [[-110, -100], [-517, -507]]
     # Define road lane boundaries to compute deviation from the road.
-    Deviation1 = [[-200, 0], [515, 530]]
-    Deviation2 = [[-8, 3], [0, 520]]
+    Deviation1 = [[-3, 7], [-510, 0]]
+    Deviation2 = [[-200, -7], [-517, -507]]
 
     ContinousPerf = []
     LastContPerf = 1
@@ -47,7 +47,7 @@ def analyse():
 
             cnt+=1
 			#------------------------------- turning performance part-------------------------------------
-            TurnPerfTemp,crossedTurn1 = UpwardLeftLane(line1_1, line1_2, crossedTurn1, x, y)
+            TurnPerfTemp,crossedTurn1 = RightwardRightLane(line1_1, line1_2, crossedTurn1, x, y)
             if(TurnPerfTemp!=0):
                 TurnPerf.append(TurnPerfTemp)
             
@@ -57,17 +57,18 @@ def analyse():
            
 
 			#------------------------------- stop sign performance part-------------------------------------
-            StopPerf,CrossedStopSign = StopSignRight(Stop_sign, CrossedStopSign, x, y, Speed, StopPerf)
+            StopPerf,CrossedStopSign = StopSignDown(Stop_sign, CrossedStopSign, x, y, Speed, StopPerf)
 			
 
 
 			#------------------------------- continous deviation performance part-------------------------------------
             if(crossedTurn1):
+                CrossedSpeedSign = False;
                 ContinousPerf.append([time,LastContPerf])
                 TotalDevPerf+=LastContPerf
                 continue
-            LastContPerfTemp1 = upwardRight(Deviation1,x,y)
-            LastContPerfTemp2 = leftwardDown(Deviation2,x,y)
+            LastContPerfTemp1 = leftwardUp(Deviation1,x,y)
+            LastContPerfTemp2 = upwardLeft(Deviation2,x,y)
             if(LastContPerfTemp1!=0):
                 LastContPerf = LastContPerfTemp1
                 ContinousPerf.append([time,LastContPerf])
