@@ -170,7 +170,7 @@ def RightwardLeftLane(line1, line2, flag, x, y):
 # turn down or up.
 def RightwardRightLane(line1, line2, flag, x, y):
     laneWidth = abs(line2[1][0]-line2[1][1])
-    half = line2[1][0] + laneWidth/2 + 2
+    half = line2[1][0] + 2
     Rang1_1 = [[line2[0][0], line2[0][1]],[ half-0.5,half]]
     Rang1_2 = [[line2[0][0], line2[0][1]],[ half,half+2 ]]
 

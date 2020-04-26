@@ -7,20 +7,20 @@ from stopPerf import *
 from ContinousPerf import *
 
 #log_path = path.expanduser('~\\Documents\\AirSim\\airsim_rec.txt')
-log_path = path.expanduser('rank1_road2r_unfocused.txt')
+log_path = path.expanduser('rank1_road2r_focused.txt')
 
 
 def analyse():
     # Define road stripes for first square.
     line1_1 = [[-9, 6], [504, 514]]
-    line1_2 = [[-15, -10], [515, 530]]
+    line1_2 = [[-15, -10], [518, 527]]
     # Define the speed sign place
     Speed_sign = [[-8, 3], [80, 95]]
     # Define the stop sign place and the boundary flags for performance testing.
     Stop_sign = [[-100, -90], [515, 530]]
     # Define road lane boundaries to compute deviation from the road.
-    Deviation1 = [[-9, 3], [0, 530]]
-    Deviation2 = [[-200, -10], [515, 530]]
+    Deviation1 = [[-6, 2], [0, 530]]
+    Deviation2 = [[-200, -10], [518, 527]]
 
     ContinousPerf = []
     LastContPerf = 1
